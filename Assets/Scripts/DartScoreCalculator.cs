@@ -8,6 +8,7 @@ public class DartScoreCalculator : MonoBehaviour
     public TMP_InputField numberInput;
     public TMP_Dropdown multiplierDropdown;
     public TMP_Text scoreText;
+    public int score;
 
     private void Update()
     {
@@ -23,7 +24,7 @@ public class DartScoreCalculator : MonoBehaviour
             {
                 int selectedMultiplier = multiplierDropdown.value; // Get the selected dropdown value
 
-                int score = 0;
+                score = 0;
                 switch (selectedMultiplier)
                 {
                     case 0: // Single
@@ -57,13 +58,15 @@ public class DartScoreCalculator : MonoBehaviour
     public void CalculateBullseyeScore()
     {
         // Bullseye is always 50 points
-        scoreText.text = "Dart throw score: 50 points";
+        score = 50;
+        scoreText.text = "Dart throw score: " + score + " points";
     }
 
     // Button click function for Outer Bull
     public void CalculateOuterBullScore()
     {
         // Outer Bull is always 25 points
-        scoreText.text = "Dart throw score: 25 points";
+        score = 25;
+        scoreText.text = "Dart throw score: " + score + " points";
     }
 }

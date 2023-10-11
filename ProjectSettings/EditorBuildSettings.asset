@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BlockedMine.unity
     guid: 93055a9601942d349b66a1647993dac1
+  - enabled: 1
+    path: Assets/Scenes/BlockedMine40.unity
+    guid: fd3d4337e95375d4091da0887b89af39
   m_configObjects: {}
