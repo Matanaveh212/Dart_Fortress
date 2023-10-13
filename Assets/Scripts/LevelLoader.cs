@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class LevelLoader : MonoBehaviour
 {
     public Animator transition;
+    public void LoadThisScene(int loadThisScene)
+    {
+        StartCoroutine(LoadLevel(loadThisScene));
+    }
 
     public void LoadNextLevel()
     {
