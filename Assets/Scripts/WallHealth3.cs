@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class WallHealth2 : MonoBehaviour
+public class WallHealth3 : MonoBehaviour
 {
     public Image debrisWall;
-    public DartScoreCalculator dartScoreCalculator1;
-    public DartScoreCalculator dartScoreCalculator2;
-    public GameObject scoreCanvas1;
-    public GameObject scoreCanvas2;
+    public DartScoreCalculator2 dartScoreCalculator;
+    public GameObject scoreCanvas;
+    public Sprite onArrow;
+    public Sprite offArrow;
+    public Image dart1;
+    public Image dart2;
     public TMP_Text healthText;
     public TMP_Text damageText;
-    public int health;
-    int damage1;
-    int damage2;
+    int health;
+    int damage;
 
     public Sprite wall1;
     public Sprite wall2;
@@ -35,60 +36,26 @@ public class WallHealth2 : MonoBehaviour
         debrisWall.GetComponent<Image>().sprite = CheckWallLevel();
     }
 
-    public void TakeDamage1()
+    public void TakeDamage()
     {
-        damage1 = dartScoreCalculator1.score;
-        if (damage1 != 0)
+        damage = dartScoreCalculator.score;
+        dartScoreCalculator.ResetScores();
+        if (damage != 0)
         {
-            health -= damage1;
+            health -= damage;
             healthText.text = health.ToString();
-            damageText.text = "-" + damage1.ToString();
+            damageText.text = "-" + damage.ToString();
             damageText.gameObject.SetActive(true);
             debrisWall.GetComponent<Image>().sprite = CheckWallLevel();
+            StartCoroutine("DamageAnim");
+            SwitchArrows();
             if (health <= 0)
             {
                 health = 0;
                 healthText.text = health.ToString();
                 FindObjectOfType<LevelLoader>().LoadNextLevel();
             }
-            StartCoroutine("ActiveScoreCanvas1");
         }
-    }
-
-    IEnumerator ActiveScoreCanvas1()
-    {
-        scoreCanvas1.SetActive(false);
-        yield return new WaitForSeconds(1.5f);
-        damageText.gameObject.SetActive(false);
-        scoreCanvas1.SetActive(true);
-    }
-
-    public void TakeDamage2()
-    {
-        damage2 = dartScoreCalculator2.score;
-        if (damage2 != 0)
-        {
-            health -= damage2;
-            healthText.text = health.ToString();
-            damageText.text = "-" + damage2.ToString();
-            damageText.gameObject.SetActive(true);
-            debrisWall.GetComponent<Image>().sprite = CheckWallLevel();
-            if (health <= 0)
-            {
-                health = 0;
-                healthText.text = health.ToString();
-                FindObjectOfType<LevelLoader>().LoadNextLevel();
-            }
-            StartCoroutine("ActiveScoreCanvas2");
-        }
-    }
-
-    IEnumerator ActiveScoreCanvas2()
-    {
-        scoreCanvas2.SetActive(false);
-        yield return new WaitForSeconds(1.5f);
-        damageText.gameObject.SetActive(false);
-        scoreCanvas2.SetActive(true);
     }
 
     private Sprite CheckWallLevel()
@@ -105,5 +72,31 @@ public class WallHealth2 : MonoBehaviour
         if (health <= 100 && health >= 0) return wall1;
         if (health < 0) return wall1;
         return null;
+    }
+
+    IEnumerator DamageAnim()
+    {
+        yield return new WaitForSeconds(1.5f);
+        damageText.gameObject.SetActive(false);
+    }
+
+    void SwitchArrows()
+    {
+        Sprite sprite1 = dart1.GetComponent<Image>().sprite;
+        Sprite sprite2 = dart2.GetComponent<Image>().sprite;
+
+        if (sprite1 == onArrow)
+        {
+            sprite1 = offArrow;
+            sprite2 = onArrow;
+        }
+        else if(sprite2 == onArrow) 
+        {
+            sprite1 =onArrow;
+            sprite2 = offArrow;
+        }
+
+        dart1.GetComponent<Image>().sprite = sprite1;
+        dart2.GetComponent<Image>().sprite = sprite2;
     }
 }
